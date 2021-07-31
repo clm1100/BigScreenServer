@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>competition</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="app">
+        <button class="button">start</button>
+        <div class="content">
+            <div class="xiangmu">
+                <!-- 铅球比赛 -->
+            </div>
+            <div class="name">
+                <span class="title">programme：</span> <span id="name" class="title2 name">unknown</span>
+            </div>
+            <div class="bianhao">
+                <span class="title">number：</span> <span id="number" class="title2 number">unknown</span>
+            </div>
+            <div class="palyername">
+            <span class="title">palyername：</span> <span id="palyername" class="title2 name">unknown</span>
+            </div>
+            <div class="chengji">
+            <span class="title">result(metre)：</span> <span id="result" class="title2 result">0</span>
+            </div>
+            
+        </div>
+    </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/Jquery.js"></script>
+<script>
+     var io = io.connect('http://localhost:8000');
+        io.emit("link", "发送的信息");
+        io.on("link1", msg => {  // 监听频道，等待消息
+            console.log(msg)
+        });
+       
+
+    $(function () {
+         io.on("broadcast", msg => {  // 监听频道，等待消息
+            console.log(msg,"========");
+            let obj = JSON.parse(msg);
+            let {name,number,result, playername} = obj;
+            console.log(name, number, result, playername);
+
+            let player = playername;
+
+            if(name==undefined){
+                $("#name").html("unknown");
+            }else{
+                console.log(name);
+                $("#name").html(name);
+            }
+
+            if (palyername == undefined) {
+                 $("#palyername").html("unknown");
+             } else {
+                 console.log(player)
+                 $("#palyername").html(player);
+             }
+
+           if(number==undefined){
+                $("#number").html("unknown");
+           }else{
+                $("#number").html(number);
+           }
+
+
+            if(result==undefined){
+                $("#result").html(0);
+            }else{
+                $("#result").html(result);
+            }
+        });
+    })
+
+</script>
+<script>
+    $(function () {
+        $('button').click(function () {
+            var Promise = document.querySelector('.content').requestFullscreen();
+        })
+    })
+</script>
+</body>
+</html>
